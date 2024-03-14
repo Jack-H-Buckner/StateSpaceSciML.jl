@@ -6,7 +6,7 @@ NODEs are nonparametric time series models that represent changes in the time se
 ```
 The dynamics of the resulting differntial equation are determined by the weights ``w`` and biases ``b`` of the neural network, which are found in the training process. 
 
-The `UniversalDiffeq.jl` package is designed with ecologists in mind. Ecologogical data tends to be reletivly sparce and noisy compared to data on physical systems. To accomidate these limitations the training routine used by `UniversalDiffeq.jl` explicitly accounts for observaiton errors. We assume the data ``x_t`` is the sum of the true value of the systems state ``u_t`` plus a noise term ``\epsilon_t``. The training routine jointly estimates the value fo the state variables ``u_t`` and the weights ``w`` and biases ``b`` of the neural network by splitting the loss funciton into to components, and observation loss and a prediction loss. 
+The `StateSpaceSciML.jl` package is designed with ecologists in mind. Ecologogical data tends to be reletivly sparce and noisy compared to data on physical systems. To accomidate these limitations the training routine used by `StateSpaceSciML.jl` explicitly accounts for observaiton errors. We assume the data ``x_t`` is the sum of the true value of the systems state ``u_t`` plus a noise term ``\epsilon_t``. The training routine jointly estimates the value fo the state variables ``u_t`` and the weights ``w`` and biases ``b`` of the neural network by splitting the loss funciton into to components, and observation loss and a prediction loss. 
 
 The observaiton loss compares the estimated state variables ``\hat{u}_t`` to the data``x_t`` using the mean squared error
 ```math
@@ -36,7 +36,7 @@ Simualted a data set from the Loka Volterra predator prey model.
 ```@example LVexample; continued = true
 using Plots # hide
 push!(LOAD_PATH,"../../src/")
-using UniversalDiffEq
+using StateSpaceSciML
 data,plt = LokaVolterra()
 savefig(plt, "LVdata-plot.svg"); nothing # hide
 ```

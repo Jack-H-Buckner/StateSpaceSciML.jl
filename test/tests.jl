@@ -1,4 +1,5 @@
-using UniversalDiffEq
+push!(LOAD_PATH,"../src/")
+using StateSpaceSciML
 
 # test NODE and gradient decent 
 data,plt = LokaVolterra()

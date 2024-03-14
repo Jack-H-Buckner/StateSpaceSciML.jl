@@ -1,14 +1,14 @@
 push!(LOAD_PATH,"../src/")
 using Pkg; Pkg.add("DataFrames")
-using Documenter, UniversalDiffEq, DataFrames
+using Documenter, StateSpaceSciML, DataFrames
 
 makedocs(
-    sitename="UniversalDiffEq.jl",
-    modules  = [UniversalDiffEq],
+    sitename="StateSpaceSciML.jl",
+    modules  = [StateSpaceSciML],
     format   = Documenter.HTML(; prettyurls = get(ENV, "CI", nothing) == "true"),
     pages = ["index.md","Models.md","ModelTesting.md","NutsAndBolts.md","MultipleTimeSeries.md"]
 )
 
 deploydocs(
-    repo = "github.com/jarroyoe/UniversalDiffEq.jl.git",
+    repo = "github.com/Jack-H-Buckner/StateSpaceSciML.jl.git",
 )

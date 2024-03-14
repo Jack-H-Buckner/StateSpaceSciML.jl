@@ -1,6 +1,6 @@
 # Model Constructors
 
-UniversalDiffEq provides a set of functions to construct NODE and UDE with varying levels of customization. 
+StateSpaceSciML provides a set of functions to construct NODE and UDE with varying levels of customization. 
 
 ## NODES and NNDE
 The simplest models to implement are the fully nonparametrics neural ordinary differential equation (NODE) and neural newtork difference equation (NNDE). These functions use a neural network to represent the right hand side of a system of differential equations and differnce equation respectively
@@ -13,7 +13,7 @@ The simplest models to implement are the fully nonparametrics neural ordinary di
 The `NODE` function builds a NODE model for a user supplied data set and `NNDE` build 
 
 ```@docs
-UniversalDiffEq.NODE(data;kwargs ... )
+StateSpaceSciML.NODE(data;kwargs ... )
 
 ```
 
@@ -27,28 +27,28 @@ Covariates can be added to the model by supplying a second data frame `X` with t
 The NODE models use a linear interpolation to approximate the value fo the covarites between observations. odel with covariates have not been developed for the discrete time case yet.  
 
 ```@docs
-UniversalDiffEq.NODE(data,X;kwargs ... )
+StateSpaceSciML.NODE(data,X;kwargs ... )
 ```
 
 ## UDEs
-The CustomDerivatives and CustomDifference function can be used to build models that combine nerual networks and known functional forms. These function take user defined models and consturct a loss function and provide access to the model fitting and testing functions provided by `UniversalDiffEq.jl`
+The CustomDerivatives and CustomDifference function can be used to build models that combine nerual networks and known functional forms. These function take user defined models and consturct a loss function and provide access to the model fitting and testing functions provided by `StateSpaceSciML.jl`
 ```@docs
-UniversalDiffEq.CustomDerivatives(data,derivs!,initial_parameters;kwargs ... )
-UniversalDiffEq.CustomDiffernce(data,step,initial_parameters;kwrags...)
+StateSpaceSciML.CustomDerivatives(data,derivs!,initial_parameters;kwargs ... )
+StateSpaceSciML.CustomDiffernce(data,step,initial_parameters;kwrags...)
 ```
 
 ## Adding Covariates
 
 In this context the 
 ```@docs
-UniversalDiffEq.CustomDerivatives(data,X,derivs!,initial_parameters;kwargs ... )
-UniversalDiffEq.CustomDiffernce(data,X,step,initial_parameters;kwargs ... )
+StateSpaceSciML.CustomDerivatives(data,X,derivs!,initial_parameters;kwargs ... )
+StateSpaceSciML.CustomDiffernce(data,X,step,initial_parameters;kwargs ... )
 ```
 
 ## Other functions
 ```@docs
-UniversalDiffEq.NNDE(data;kwargs ...)
-UniversalDiffEq.DiscreteUDE(data,step,init_parameters;kwargs ...)
+StateSpaceSciML.NNDE(data;kwargs ...)
+StateSpaceSciML.DiscreteUDE(data,step,init_parameters;kwargs ...)
 
-UniversalDiffEq.UDE(data,derivs,init_parameters;kwargs...)
+StateSpaceSciML.UDE(data,derivs,init_parameters;kwargs...)
 ```

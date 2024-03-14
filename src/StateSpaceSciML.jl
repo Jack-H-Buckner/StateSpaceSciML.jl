@@ -1,4 +1,4 @@
-module UniversalDiffEq
+module StateSpaceSciML
 
 using DiffEqFlux, DifferentialEquations, Optimization, OptimizationOptimisers, OptimizationOptimJL, ComponentArrays, Lux, Random, StatsBase, DelimitedFiles, Plots, DataFrames, Distributions
 

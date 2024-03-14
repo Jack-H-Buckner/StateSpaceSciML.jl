@@ -1,7 +1,8 @@
-using UniversalDiffEq
+push!(LOAD_PATH,"../src/")
+using StateSpaceSciML
 import Pkg; Pkg.add("Test")
 using Test
 
-@testset "UniversalDiffEq.jl" begin
+@testset "StateSpaceSciML.jl" begin
     include("tests.jl")
 end

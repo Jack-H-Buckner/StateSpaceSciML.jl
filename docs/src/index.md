@@ -1,4 +1,4 @@
-# UniversalDiffEq.jl
+# StateSpaceSciML.jl
 
 A library to build Neural ordinary differntial equtions (NODEs) and Universal differential eqautions (UDEs) for ecological data.
 
@@ -6,7 +6,7 @@ A library to build Neural ordinary differntial equtions (NODEs) and Universal di
 
 Describe NODES / UDEs 
 
-## How UniversalDiffEq.jl works
+## How StateSpaceSciML.jl works
 
 Describe loss function / fitting proceduce 
 

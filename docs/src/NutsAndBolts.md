@@ -1,8 +1,8 @@
 # UDE model construction 
 
-Some users may wish to access elements of a fitted model directly to create custom model visualizations, performance tests, or other applications not forseen by thr developers. To this end, we provide documentation of classes (Julia mutable structs) used by UniversalDiffEq.jl to build the NODE and UDE objects. The package is built around the `UDE` class which stores the data used to fit a model and instances of six submodel classes used to define the full model. 
+Some users may wish to access elements of a fitted model directly to create custom model visualizations, performance tests, or other applications not forseen by thr developers. To this end, we provide documentation of classes (Julia mutable structs) used by StateSpaceSciML.jl to build the NODE and UDE objects. The package is built around the `UDE` class which stores the data used to fit a model and instances of six submodel classes used to define the full model. 
 
-UniversalDiffEq uses a state space modeling framework to define and fit NODE and UDE models. State space models are a class of time series models that describe a time series data with a process model that describes the dynaics of a sequence of unobserved state variables ``u_t`` a second observaiton model defines the relationship between the state variables ``u_t`` and the observations ``x_t``.  The process model ``f`` predicts value of the state variables one step ahead
+StateSpaceSciML uses a state space modeling framework to define and fit NODE and UDE models. State space models are a class of time series models that describe a time series data with a process model that describes the dynaics of a sequence of unobserved state variables ``u_t`` a second observaiton model defines the relationship between the state variables ``u_t`` and the observations ``x_t``.  The process model ``f`` predicts value of the state variables one step ahead
 ```math
 \hat{u}_{t+\Delta t } = f(u_t; t, \Delta t, \theta_{proc})
 ```
@@ -34,14 +34,14 @@ UDE
 ```
 
 ```@docs
-UniversalDiffEq.ProcessModel
+StateSpaceSciML.ProcessModel
 ```
 
 ```@docs
-UniversalDiffEq.LossFunction
+StateSpaceSciML.LossFunction
 ```
 
 ```@docs
-UniversalDiffEq.Regularization  
+StateSpaceSciML.Regularization  
 ```
 
