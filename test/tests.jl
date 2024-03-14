@@ -1,4 +1,3 @@
-import Pkg; Pkg.add("Pkg")
 push!(LOAD_PATH,"../src/")
 using StateSpaceSciML
 

@@ -23,7 +23,7 @@ Finally, the constructor functions share a set of key work arguments that are us
 In addtion to these weighting parameters two key work arguments `l = 0.25` and `extrap_rho = 0.0` control how the model extapolated beyond the observed data. The paramter `l` defines how far away the modle will extrapolate before shifting to the default behavior and `extrap_rho` defined the default when extrapolating. When forecasting the model will modify the trained process model ``f(u_t;\theta)`` when extapolating to a new fucntion
 
 ```math
-bar{f}(u_t|\theta,l,\rho )=   \left\{
+\bar{f}(u_t|\theta,l,\rho )=   \left\{
 \begin{array}{ll}
       f(u_t;\theta) & min(\hat{u}) < u_t < max(\hat{u}) \\
       e^{(\frac{u_t - min(\hat{u}_t)}{l})^2}f(u_t;\theta) + (1-e^{(\frac{u_t - min(\hat{u}_t)}{l})^2}) \rho &u_t < min(\hat{u}) \\
