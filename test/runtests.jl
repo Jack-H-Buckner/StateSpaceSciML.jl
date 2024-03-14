@@ -1,6 +1,6 @@
 push!(LOAD_PATH,"../src/")
+import Pkg; Pkg.add("Pkg")
 using StateSpaceSciML
-import Pkg; Pkg.add("Test")
 using Test
 
 @testset "StateSpaceSciML.jl" begin
