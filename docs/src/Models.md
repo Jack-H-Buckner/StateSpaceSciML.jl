@@ -1,6 +1,6 @@
 # Model Constructors
 
-StateSpaceSciML provides a set of functions to construct NODE and UDE with varying levels of customization. The model constructors all require the data to be passed using a DataFrame object from the DataFrames.jl library. The data frame should be organized with a column for time named `t` and the remianing columns shoud have the value of the state variables at each point in time.
+StateSpaceSciML provides a set of functions to construct NODE and UDE with varying levels of customization. The model constructors all require the data to be passed using a DataFrame object from the DataFrames.jl library. The data frame should be organized with a column for time named `t`, and the remaining columns shoud have the value of the state variables at each point in time.
 
 
 |t  |``X_1`` | ``X_2``|
@@ -8,19 +8,20 @@ StateSpaceSciML provides a set of functions to construct NODE and UDE with varyi
 |0.1| 0.0| -1.1|
 |0.2| 0.01| -0.9|
 |0.5| 0.51|-1.05|
-Table: Example data set with two state vaiables
+Table: Example data set with two state variables
 
-Currently mising data are not supported, but irregular intervals between time points are allowed. 
+Currently, missing data are not supported, but irregular intervals between time points are allowed.
 
-Each constructor function will require addtional inputs to specify the model structure. For example, the `CustomDerivatives` function requires the user supply the known functional forms through the `derivs!` argument. These aregumetns are described in detail in the subsection for each model type. 
+Each constructor function will require additional inputs to specify the model structure. For example, the `CustomDerivatives` function requires the user to supply the known functional forms through the `derivs!` argument. These arguments are described in detail in the subsection for each model type.
 
-Finally, the constructor functions share a set of key work arguments that are used to tune the model fitting procedure. These control the weight given to the process model, observaiton model and regualrization in the loss function and can be tuned to control the complexity of the estimated model and to accomidate variying levels of observaitonal errors: 
+Finally, the constructor functions share a set of key work arguments used to tune the model fitting procedure. These control the weight given to the process model, observaiton model and regularization in the loss function and can be tuned to control the complexity of the estimated model and to accommodate varying levels of observational errors:
 
-- proc_weight=1.0 : Weight given to the model predictiosn in loss funciton
-- obs_weight=1.0 : Weight given to the state estiamtes in loss function 
-- reg_weight=0.0 : Weight given to regularization in the loss function. 
+- proc_weight=1.0 : The weight given to the model predictions in loss function
+- obs_weight=1.0 : The weight given to the state estimates in loss function
+- reg_weight=0.0 : The weight given to regularization in the loss function.
 
-In addtion to these weighting parameters two key work arguments `l = 0.25` and `extrap_rho = 0.0` control how the model extapolated beyond the observed data. The paramter `l` defines how far away the modle will extrapolate before shifting to the default behavior and `extrap_rho` defined the default when extrapolating. When forecasting the model will modify the trained process model ``f(u_t;\theta)`` when extapolating to a new fucntion
+In addition to these weighting parameters, two key work arguments, `l = 0.25` and `extrap_rho = 0.0`, controls how the model extapolates beyond the observed data. The parameter `l` defines how far away the model will extrapolate before shifting to the default behavior and `extrap_rho` defines the default when extrapolating. When forecasting, the model will modify the trained process model ``f(u_t;\theta)`` when extrapolating to a new function the combines the fitted model and the default behavior
+
 
 ```math
 \bar{f}(u_t|\theta,l,\rho )=   \left\{
@@ -32,29 +33,34 @@ In addtion to these weighting parameters two key work arguments `l = 0.25` and `
 \right.  
 ```
 
+
 ## NODES and NNDE
-The simplest models to implement are the fully nonparametrics neural ordinary differential equation (NODE) and neural newtork difference equation (NNDE). These functions use a neural network to represent the right hand side of a system of differential equations and differnce equation respectively
+NODEs and NNDEs use neural networks to build fully nonparametric models in continuous and discrete time respectively. NODEs use a neural network as the right hand side of a differntial equation 
 
 ```math
-   \frac{dx}{dt} = NN(x;w,b) \\
-   x_{t+1} = NN(x_t;w,b)
+   \frac{dx}{dt} = NN(x;w,b),
 ```
 
-The `NODE` function builds a NODE model for a user supplied data set and `NNDE` build 
+and NNDE use a neurla network as the right havd side of a differnce equation
+
+```math
+   x_{t+1} = x_t + NN(x_t).
+```
+
+The `NODE` and `NNDE` function construct each model type.
 
 ```@docs
 StateSpaceSciML.NODE(data;kwargs ... )
-
+StateSpaceSciML.NNDE(data;kwargs ...)
 ```
 
-Covariates can be added to the model by supplying a second data frame `X` with thier values at differnt points in time. The value of the covaritates are appended to the state vector ``x`` to create the input for the neural network
+Covariates can be added to the model by supplying a second data frame `X` This data frame must have the same format as the primary data set, but the time points need not match. The `NODE` and `NNDE` functions will append the value of the covarates at each point in time to the nerual network inputs
 
 ```math
    \frac{dx}{dt} = NN(x,X(t);w,b) \\
-   x_{t+1} = NN(x_t,X_t;w,b)
+   x_{t+1} = x_t + NN(x_t, X(t)).
 ```
-
-The NODE models use a linear interpolation to approximate the value fo the covarites between observations. odel with covariates have not been developed for the discrete time case yet.  
+The value of the covarates between time point included in the data frame `X` are interpolated using a linear spline.  
 
 ```@docs
 StateSpaceSciML.NODE(data,X;kwargs ... )
