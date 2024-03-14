@@ -41,7 +41,7 @@ NODEs and NNDEs use neural networks to build fully nonparametric models in conti
    \frac{dx}{dt} = NN(x;w,b),
 ```
 
-and NNDE use a neurla network as the right havd side of a differnce equation
+and NNDE use a neural network as the right hand side of a differnce equation
 
 ```math
    x_{t+1} = x_t + NN(x_t).
@@ -67,9 +67,65 @@ StateSpaceSciML.NODE(data,X;kwargs ... )
 ```
 
 ## UDEs
-The CustomDerivatives and CustomDifference function can be used to build models that combine nerual networks and known functional forms. These function take user defined models and consturct a loss function and provide access to the model fitting and testing functions provided by `StateSpaceSciML.jl`
+
+### Continuous time model 
+The CustomDerivatives and CustomDifference function can be used to build models that combine nerual networks and known functional forms. These function take user defined models and consturct a loss function and provide access to the model fitting and testing functions provided by StateSpaceSciML.
+
+The CustomDerivatives function build UDE models based on a user defined function `derivs!(du,u,p,t)`, which updates the vector `du` with the right hand side of a differntial equation evaluated at time `t` in state `u` given parameters `p`. The function also needs an initial guess at the model paramters, specified by a NamedTuple `initial_parameters`
+
 ```@docs
 StateSpaceSciML.CustomDerivatives(data,derivs!,initial_parameters;kwargs ... )
+```
+
+### Example
+The following block of code shows how to build UDE model based on the loka volterra predator prey model where the growth rate of the prey ``r``, mortaltiy rate of the predatory ``m`` and conversion efficency ``\theta`` are estiamted and the predation rate is described by a neural network ``NN``. The resulting ODE is defined by 
+
+```math
+\frac{dN}{dt} = rN - NN(N,P) \\
+\frac{dP}{dt} = \theta NN(N,P) - mP.
+```
+
+To implemnt the model we start by defining he neural network object using the `Lux.Chain` funciton, 
+
+```julia
+using Lux
+# Build the neurla network with lux Chain 
+dims_in = 2
+hidden_units = 10
+nonlinearity = tanh
+dims_out = 1
+NN = Lux.Chain(Lux.Dense(dims_in,hidden_units,nonlinearity),Lux.Dense(hidden_units,dims_out))
+
+# initialize the neurla network states and paramters 
+using Random
+rng = Random.default_rng() 
+NNparameters, states = Lux.setup(rng,NN) 
+```
+
+New we can define the model derivatives using the usual julia functions syntax. The derivs function first evaluates the neural network given the abundance of the predators and prey in the vector `u`. The neurla network fucntion `NN` requires three arguments the current state, he newtork parameters and the network states. In this example, the wieghts and biases are accessed through the paramters NamedTupe `p` with the key `NN`. The other model parameters are accessed with key corresponding to their respective names.
+
+```julia
+function loka_volterra_derivs!(du,u,p,t)
+    C, states = NN(u,p.NN, states) 
+    du[1] = p.r*u[1] - C[1]
+    du[2] = p.theta*C[1] -p.m*u[2]
+end
+```
+
+Finally, we can define the initial paramters as a named tuple and build the model using the CustomDerivatives function.
+
+```julia
+using StateSpaceSciML
+initial_parameters = (NN = NNparameters,r = 1.0,m=0.5,theta=0.5)
+model = CustomDerivatives(data,loka_volterra_derivs!,initial_parameters)
+```
+
+
+### Discrete time model 
+
+Discrete time models are onstructed ina similar way to continous time models. The user provides the right hand side of a differnce equation with the function `step` and initial paramters. The function `step(u,t,p)` takes three arguments the value of the state variables `u`, time `t` and model paramters `p`.
+
+```@docs
 StateSpaceSciML.CustomDiffernce(data,step,initial_parameters;kwrags...)
 ```
 
