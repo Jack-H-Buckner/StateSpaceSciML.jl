@@ -1,6 +1,7 @@
-using StateSpaceSciML
+using UniversalDiffEq
+import Pkg; Pkg.add("Test")
 using Test
 
-@testset "StateSpaceSciML.jl" begin
-    # Write your tests here.
+@testset "UniversalDiffEq.jl" begin
+    include("tests.jl")
 end
