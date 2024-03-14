@@ -1,6 +1,6 @@
 # Model Constructors
 
-StateSpaceSciML provides a set of functions to construct NODE and UDE with varying levels of customization. 
+StateSpaceSciML provides a set of functions to construct NODE and UDE with varying levels of customization. Currently 
 
 ## NODES and NNDE
 The simplest models to implement are the fully nonparametrics neural ordinary differential equation (NODE) and neural newtork difference equation (NNDE). These functions use a neural network to represent the right hand side of a system of differential equations and differnce equation respectively

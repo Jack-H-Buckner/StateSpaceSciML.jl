@@ -30,13 +30,13 @@ StateSpaceSciML builds and trains UDEs within a state space modeling framework. 
 State space models simultaneously estimate the parameters of the process and observation models ``\theta`` and the value of the state variables at each point in time ``\hat{u}_t``. These parameters are estimated by optimizing a loss function that combines two components, the observaiton loss and the process loss, which evaluate the performance of the state estimates and the process model parameters, respectively. The observation loss compares the state estimates ``\hat{u}_t`` to the data ``x_t`` using the observation model ``g(u_t)``. For example, we can use the mean squared error loss
 
 ```math
-L_{obs} = \frac{1}{T} \sum_{i = 1}^T \right(x_t - g(\hat{u}_t;\theta )\left)^2.
+L_{obs} = \frac{1}{T} \sum_{i = 1}^T (x_t - g(\hat{u}_t;\theta ))^2.
 ```
 
 The process loss is calculated by comparing the predictions of the process model ``f(u_t;\theta)`` to the estimated states one step ahead again. The mean squared error performs well
 
 ```math
-L_{proc} = \frac{1}{T=-1} \sum_{i = 2}^T \right(\hat{u}_t - f(\hat{u}_{t-1};\theta )\left)^2.
+L_{proc} = \frac{1}{T=-1} \sum_{i = 2}^T(\hat{u}_t - f(\hat{u}_{t-1};\theta ))^2.
 ```
 
 Additional terms can be added to regularize neural network parameters or incorporate prior information
